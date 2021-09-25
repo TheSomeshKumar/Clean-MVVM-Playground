@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_movies">
+
+    <fragment
+        android:id="@+id/navigation_movies"
+        android:name="com.example.playground.ui.movie.MoviesFragment"
+        android:label="@string/title_movies"
+        tools:layout="@layout/fragment_movies">
+        <action
+            android:id="@+id/action_navigation_movies_to_navigation_detail"
+            app:destination="@id/navigation_detail" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_tv_show"
+        android:name="com.example.playground.ui.tv.TvShowFragment"
+        android:label="@string/title_tv_shows"
+        tools:layout="@layout/fragment_tv_show">
+        <action
+            android:id="@+id/action_navigation_tv_show_to_navigation_detail"
+            app:destination="@id/navigation_detail" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_people"
+        android:name="com.example.playground.ui.people.PeopleFragment"
+        android:label="@string/title_people"
+        tools:layout="@layout/fragment_people">
+        <action
+            android:id="@+id/action_navigation_people_to_navigation_detail"
+            app:destination="@id/navigation_detail" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/navigation_detail"
+        android:name="com.example.playground.ui.detail.DetailFragment"
+        android:label=""
+        tools:layout="@layout/fragment_detail">
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument
+            android:name="pictureUrl"
+            app:argType="string" />
+        <argument
+            android:name="description"
+            app:argType="string" />
+    </fragment>
+</navigation>
