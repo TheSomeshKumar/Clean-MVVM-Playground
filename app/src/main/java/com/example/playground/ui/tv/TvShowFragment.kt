@@ -36,6 +36,7 @@ class TvShowFragment : Fragment() {
 
         binding.rvTvShow.layoutManager = GridLayoutManager(requireContext(), 3)
         binding.rvTvShow.setHasFixedSize(true)
+
         lifecycleScope.launchWhenStarted {
             viewModel.resultTvShow.collect { result ->
                 result.onLoading { binding.progressLoading.show() }.onSuccess {
@@ -55,6 +56,7 @@ class TvShowFragment : Fragment() {
                 }
             }
         }
+
         viewModel.getTvShow()
     }
 }

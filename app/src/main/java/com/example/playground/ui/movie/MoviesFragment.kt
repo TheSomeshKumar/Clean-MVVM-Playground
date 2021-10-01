@@ -39,24 +39,23 @@ class MoviesFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             viewModel.resultMovies.collect { result ->
                 result.onLoading { binding.progressLoading.show() }.onSuccess {
-                        binding.progressLoading.hide()
-                        val adapter = MovieAdapter(it) { clickedMovie ->
-                            findNavController().navigate(
-                                    MoviesFragmentDirections.actionNavigationMoviesToNavigationDetail(
-                                            name = clickedMovie.title, pictureUrl = clickedMovie.posterPath, description = clickedMovie.overview
-                                        )
-                                )
-                        }
-                        binding.rvMovies.adapter = adapter
-                    }.onError {
-                        Toast.makeText(
-                            requireContext(), it.getError(requireContext()), Toast.LENGTH_LONG
-                        ).show()
-                        binding.progressLoading.hide()
+                    binding.progressLoading.hide()
+                    val adapter = MovieAdapter(it) { clickedMovie ->
+                        findNavController().navigate(
+                            MoviesFragmentDirections.actionNavigationMoviesToNavigationDetail(
+                                name = clickedMovie.title, pictureUrl = clickedMovie.posterPath, description = clickedMovie.overview
+                            )
+                        )
                     }
+                    binding.rvMovies.adapter = adapter
+                }.onError {
+                    Toast.makeText(
+                        requireContext(), it.getError(requireContext()), Toast.LENGTH_LONG
+                    ).show()
+                    binding.progressLoading.hide()
+                }
             }
         }
-
         viewModel.getMovies()
     }
 }

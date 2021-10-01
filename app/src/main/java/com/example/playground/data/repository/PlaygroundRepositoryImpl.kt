@@ -19,19 +19,20 @@ class PlaygroundRepositoryImpl(
     private val remoteDataSource: RemoteDataSource, private val localDataSource: LocalDataSource
 ) : PlaygroundRepository {
     override suspend fun getMovies(): Flow<Result<List<Movie>>> {
-
         return flow {
-            if (localDataSource.getAllMovies().isNotEmpty()) {
-                emit(Result.Success(localDataSource.getAllMovies().map { it.mapToDomain() }))
-            } else {
-                remoteDataSource.getMovies().run {
-                    when (this) {
-                        is Result.Success -> {
-                            localDataSource.insertMovies(response.map { it.mapToEntity() })
-                            emit(Result.Success(response.map { it.mapToDomain() }))
-                        }
-                        is Result.Error -> {
-                            emit(Result.Error(exception))
+            localDataSource.getAllMovies().run {
+                if (this.isNotEmpty()) {
+                    emit(Result.Success(map { it.mapToDomain() }))
+                } else {
+                    remoteDataSource.getMovies().run {
+                        when (this) {
+                            is Result.Success -> {
+                                localDataSource.insertMovies(response.map { it.mapToEntity() })
+                                emit(Result.Success(response.map { it.mapToDomain() }))
+                            }
+                            is Result.Error -> {
+                                emit(Result.Error(exception))
+                            }
                         }
                     }
                 }
